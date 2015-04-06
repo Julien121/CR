@@ -1,0 +1,10 @@
+crgsbr_homepage:
+    pattern:  /
+    defaults: { _controller: CRGSBRBundle:GSBR:index }
+crgsbr_listeMedicament:
+    pattern:  /listeMedicament
+    defaults: { _controller: CRGSBRBundle:GSBR:listeMedicament }
+crgsbr_listePraticien:
+    pattern:  /listePraticien
+    defaults: { _controller: CRGSBRBundle:GSBR:listePraticien }
+

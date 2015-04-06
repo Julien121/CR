@@ -1,0 +1,4 @@
+crgsbr:
+    resource: "@CRGSBRBundle/Resources/config/routing.yml"
+    prefix:   /GSBR
+

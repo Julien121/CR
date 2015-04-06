@@ -1,0 +1,35 @@
+{% extends "CRGSBRBundle::layout.html.twig" %}
+{% block title %}
+  Accueil - {{ parent() }}
+{% endblock %}
+{% block body %}
+  <h2>Liste des praticiens</h2>
+   <table class="table table-bordered table-condensed table-body-center" >
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Ville</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for unPraticien in listPraticiens %}
+                <tr>
+                    <td data-title="Valeur alphanumérique">
+                        {{ unPraticien.nomMedecin }}
+                    </td>
+                    <td data-title="Valeur alphanumérique">
+                        {{ unPraticien.prenomMedecin }}
+                    </td>
+                    <td data-title="Valeur alphanumérique">
+                        {{ unPraticien.villeMedecin }}
+                    </td>
+                    <td data-title="Valeur alphanumérique">
+                        {{ unPraticien.getTypeMedecin.getLibelleType }}
+                    </td>
+                </tr>  
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

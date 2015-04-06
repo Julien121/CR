@@ -1,0 +1,28 @@
+{% extends "CRGSBRBundle::layout.html.twig" %}
+{% block title %}
+  Accueil - {{ parent() }}
+{% endblock %}
+{% block body %}
+  <h2>Liste des médicaments</h2>
+   <table class="table table-bordered table-condensed table-body-center" >
+        <thead>
+            <tr>
+                <th>Nom commercial</th>
+                <th>Famille</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for unMedicament in lesMedicaments %}
+                <tr>
+
+                    <td data-title="Valeur alphanumérique">
+                        {{ unMedicament.nomCommercial }}
+                    </td>
+                    <td data-title="Valeur alphanumérique">
+                        {{ unMedicament.getFamille.getLibelleFamille }}
+                    </td>
+                </tr>  
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
