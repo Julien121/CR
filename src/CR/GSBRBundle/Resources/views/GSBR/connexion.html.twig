@@ -1,0 +1,26 @@
+{% extends "CRGSBRBundle::layout.html.twig" %}
+{% block title %}
+  Accueil - {{ parent() }}
+{% endblock %}
+{% block body %}
+  <h2>Connexion</h2>
+   <div class="row">
+       <div class="col-md-12">
+           <div class="row">
+               <div class="col-md-4">
+                   <input type="text" name="id" class="form-control" placeholder="Identifiant">
+               </div>
+           </div><br/>
+           <div class="row">
+               <div class="col-md-4">
+                   <input type="text" name="mdp" class="form-control" placeholder="Mot de passe">
+               </div>
+           </div><br/>
+           <div class="row">
+               <div class="col-md-2">
+                   <input class="btn btn-primary btn-sm" type="submit" name="connexion" id="connexion" value="Connexion">
+               </div>
+           </div>
+       </div>
+   </div>
+{% endblock %}  
