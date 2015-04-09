@@ -43,6 +43,9 @@ class appDevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
         'crgsbr_homepage' => array (  0 =>   array (  ),  1 =>   array (    '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::indexAction',  ),  2 =>   array (  ),  3 =>   array (    0 =>     array (      0 => 'text',      1 => '/GSBR/',    ),  ),  4 =>   array (  ),),
         'crgsbr_listeMedicament' => array (  0 =>   array (  ),  1 =>   array (    '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::listeMedicamentAction',  ),  2 =>   array (  ),  3 =>   array (    0 =>     array (      0 => 'text',      1 => '/GSBR/listeMedicament',    ),  ),  4 =>   array (  ),),
         'crgsbr_listePraticien' => array (  0 =>   array (  ),  1 =>   array (    '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::listePraticienAction',  ),  2 =>   array (  ),  3 =>   array (    0 =>     array (      0 => 'text',      1 => '/GSBR/listePraticien',    ),  ),  4 =>   array (  ),),
+        'crgsbr_connexion' => array (  0 =>   array (  ),  1 =>   array (    '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::loginAction',  ),  2 =>   array (  ),  3 =>   array (    0 =>     array (      0 => 'text',      1 => '/GSBR/connexion',    ),  ),  4 =>   array (  ),),
+        'crgsbr_connexion_check' => array (  0 =>   array (  ),  1 =>   array (  ),  2 =>   array (  ),  3 =>   array (    0 =>     array (      0 => 'text',      1 => '/GSBR/connexion_check',    ),  ),  4 =>   array (  ),),
+        'crgsbr_deconnexion' => array (  0 =>   array (  ),  1 =>   array (  ),  2 =>   array (  ),  3 =>   array (    0 =>     array (      0 => 'text',      1 => '/GSBR/deconnexion',    ),  ),  4 =>   array (  ),),
     );
 
     /**

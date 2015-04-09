@@ -48,7 +48,10 @@ class __TwigTemplate_19ff04d70bc2cbdac7b91b3456e50fd6 extends Twig_Template
             <span class=\"icon-bar\"></span>
             <span class=\"icon-bar\"></span>
           </button>
-          <a class=\"navbar-brand\" href=\"crgsbr_homepage\">GSB-Report</a>
+          <a class=\"navbar-brand\" href=\"";
+        // line 25
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("crgsbr_homepage"), "html", null, true);
+        echo "\">GSB-Report</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -86,11 +89,11 @@ class __TwigTemplate_19ff04d70bc2cbdac7b91b3456e50fd6 extends Twig_Template
                 <li class=\"dropdown\">
                   <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">Users <span class=\"caret\"></span></a>
                   <ul class=\"dropdown-menu\" role=\"menu\">
-                    <li><a href=\"#\">Action</a></li>
-                    <li><a href=\"#\">Another action</a></li>
-                    <li><a href=\"#\">Something else here</a></li>
-                    <li class=\"divider\"></li>
-                    <li><a href=\"#\">Separated link</a></li>
+                    <li><a href=\"#\">Profil</a></li>
+                    <li><a href=\"";
+        // line 58
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("crgsbr_deconnexion"), "html", null, true);
+        echo "\">Deconnexion</a></li>
                   </ul>
                 </li>
             </ul>
@@ -102,9 +105,9 @@ class __TwigTemplate_19ff04d70bc2cbdac7b91b3456e50fd6 extends Twig_Template
     <div class=\"row\">
       <div id=\"content\" class=\"col-md-12\">
         ";
-        // line 72
+        // line 69
         $this->displayBlock('body', $context, $blocks);
-        // line 74
+        // line 71
         echo "      </div>
     </div>
 
@@ -116,9 +119,9 @@ class __TwigTemplate_19ff04d70bc2cbdac7b91b3456e50fd6 extends Twig_Template
   </div>
 
   ";
-        // line 84
+        // line 81
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 88
+        // line 85
         echo "
 </body>
 </html>";
@@ -140,20 +143,20 @@ class __TwigTemplate_19ff04d70bc2cbdac7b91b3456e50fd6 extends Twig_Template
   ";
     }
 
-    // line 72
+    // line 69
     public function block_body($context, array $blocks = array())
     {
-        // line 73
+        // line 70
         echo "        ";
     }
 
-    // line 84
+    // line 81
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 85
+        // line 82
         echo "    <script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js\"></script>
     <script src=\"";
-        // line 86
+        // line 83
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bundles/GSBR/js/bootstrap.min.js"), "html", null, true);
         echo "\"></script>
   ";
@@ -171,6 +174,6 @@ class __TwigTemplate_19ff04d70bc2cbdac7b91b3456e50fd6 extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  157 => 86,  154 => 85,  151 => 84,  147 => 73,  144 => 72,  137 => 10,  134 => 9,  128 => 7,  122 => 88,  120 => 84,  108 => 74,  106 => 72,  72 => 41,  62 => 34,  38 => 12,  36 => 9,  31 => 7,  23 => 1,);
+        return array (  160 => 83,  157 => 82,  154 => 81,  150 => 70,  147 => 69,  140 => 10,  137 => 9,  131 => 7,  125 => 85,  123 => 81,  111 => 71,  109 => 69,  95 => 58,  75 => 41,  65 => 34,  53 => 25,  38 => 12,  36 => 9,  31 => 7,  23 => 1,);
     }
 }

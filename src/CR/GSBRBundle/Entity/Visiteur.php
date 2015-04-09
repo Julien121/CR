@@ -1,7 +1,7 @@
 <?php
 
 namespace CR\GSBRBundle\Entity;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="CR\GSBRBundle\Entity\VisiteurRepository")
  */
-class Visiteur
+class Visiteur implements UserInterface
 {
     /**
      * @var integer
@@ -182,11 +182,10 @@ class Visiteur
      *
      * @return string 
      */
-    public function getLogin()
+    public function getUsername()
     {
         return $this->login;
     }
-
     /**
      * Set mdp
      *
@@ -199,13 +198,13 @@ class Visiteur
     
         return $this;
     }
-
+    
     /**
      * Get mdp
      *
      * @return string 
      */
-    public function getMdp()
+    public function getPassword()
     {
         return $this->mdp;
     }
@@ -300,5 +299,18 @@ class Visiteur
     public function getDateEmbauche()
     {
         return $this->dateEmbauche;
+    }
+    public function eraseCredentials()
+    {
+        
+    }
+    public function getRoles() 
+    { 
+        return array('ROLE_ADMIN'); 
+        
+    }
+    public function getSalt()
+    {
+        return null;
     }
 }

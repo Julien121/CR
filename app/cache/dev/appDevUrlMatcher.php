@@ -229,6 +229,24 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
             }
 
+            if (0 === strpos($pathinfo, '/GSBR/connexion')) {
+                // crgsbr_connexion
+                if ($pathinfo === '/GSBR/connexion') {
+                    return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::loginAction',  '_route' => 'crgsbr_connexion',);
+                }
+
+                // crgsbr_connexion_check
+                if ($pathinfo === '/GSBR/connexion_check') {
+                    return array('_route' => 'crgsbr_connexion_check');
+                }
+
+            }
+
+            // crgsbr_deconnexion
+            if ($pathinfo === '/GSBR/deconnexion') {
+                return array('_route' => 'crgsbr_deconnexion');
+            }
+
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
