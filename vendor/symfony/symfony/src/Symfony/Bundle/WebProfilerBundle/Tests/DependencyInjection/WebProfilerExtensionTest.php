@@ -12,7 +12,6 @@
 namespace Symfony\Bundle\WebProfilerBundle\Tests\DependencyInjection;
 
 use Symfony\Bundle\WebProfilerBundle\Tests\TestCase;
-
 use Symfony\Bundle\WebProfilerBundle\DependencyInjection\WebProfilerExtension;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -25,7 +24,7 @@ class WebProfilerExtensionTest extends TestCase
 {
     private $kernel;
     /**
-     * @var Symfony\Component\DependencyInjection\Container $container
+     * @var \Symfony\Component\DependencyInjection\Container
      */
     private $container;
 
@@ -61,6 +60,7 @@ class WebProfilerExtensionTest extends TestCase
         $this->container->setParameter('kernel.cache_dir', __DIR__);
         $this->container->setParameter('kernel.debug', false);
         $this->container->setParameter('kernel.root_dir', __DIR__);
+        $this->container->setParameter('profiler.class', array('Symfony\\Component\\HttpKernel\\Profiler\\Profiler'));
         $this->container->register('profiler', $this->getMockClass('Symfony\\Component\\HttpKernel\\Profiler\\Profiler'))
             ->addArgument(new Definition($this->getMockClass('Symfony\\Component\\HttpKernel\\Profiler\\ProfilerStorageInterface')));
         $this->container->setParameter('data_collector.templates', array());
@@ -85,7 +85,7 @@ class WebProfilerExtensionTest extends TestCase
         $extension = new WebProfilerExtension();
         $extension->load(array(array()), $this->container);
 
-        $this->assertFalse($this->container->get('web_profiler.debug_toolbar')->isEnabled());
+        $this->assertFalse($this->container->has('web_profiler.debug_toolbar'));
 
         $this->assertSaneContainer($this->getDumpedContainer());
     }
@@ -93,12 +93,16 @@ class WebProfilerExtensionTest extends TestCase
     /**
      * @dataProvider getDebugModes
      */
-    public function testToolbarConfig($enabled)
+    public function testToolbarConfig($toolbarEnabled, $interceptRedirects, $listenerInjected, $listenerEnabled)
     {
         $extension = new WebProfilerExtension();
-        $extension->load(array(array('toolbar' => $enabled)), $this->container);
+        $extension->load(array(array('toolbar' => $toolbarEnabled, 'intercept_redirects' => $interceptRedirects)), $this->container);
 
-        $this->assertSame($enabled, $this->container->get('web_profiler.debug_toolbar')->isEnabled());
+        $this->assertSame($listenerInjected, $this->container->has('web_profiler.debug_toolbar'));
+
+        if ($listenerInjected) {
+            $this->assertSame($listenerEnabled, $this->container->get('web_profiler.debug_toolbar')->isEnabled());
+        }
 
         $this->assertSaneContainer($this->getDumpedContainer());
     }
@@ -106,8 +110,10 @@ class WebProfilerExtensionTest extends TestCase
     public function getDebugModes()
     {
         return array(
-            array(true),
-            array(false),
+            array(false, false, false, false),
+            array(true,  false, true,  true),
+            array(false, true,  true,  false),
+            array(true,  true,  true,  true),
         );
     }
 

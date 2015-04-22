@@ -2,4 +2,4 @@ _assetic:
     resource: .
     type: assetic
 _app:
-    resource: 'D:/wamp/www/Projet BTS/CR/app/config/routing_dev.yml'
+    resource: 'D:\wamp\www\ProjetBTS\CR\app/config/routing_dev.yml'

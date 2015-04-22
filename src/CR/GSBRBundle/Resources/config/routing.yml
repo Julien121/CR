@@ -4,7 +4,21 @@ crgsbr_homepage:
 crgsbr_listeMedicament:
     pattern:  /listeMedicament
     defaults: { _controller: CRGSBRBundle:GSBR:listeMedicament }
+crgsbr_rechercheMedicament:
+    pattern:  /rechercheMedicament
+    defaults: { _controller: CRGSBRBundle:GSBR:rechercheMedicament }
 crgsbr_listePraticien:
     pattern:  /listePraticien
     defaults: { _controller: CRGSBRBundle:GSBR:listePraticien }
-
+crgsbr_recherchePraticien:
+    pattern:  /recherchePraticien
+    defaults: { _controller: CRGSBRBundle:GSBR:recherchePraticien }
+crgsbr_profil:
+    pattern:  /profil
+    defaults: { _controller: CRGSBRBundle:GSBR:profil }
+crgsbr_consulterRapportsVisite:
+    pattern:  /consulterRapportsVisite
+    defaults: { _controller: CRGSBRBundle:GSBR:consulterRapportsVisite }
+crgsbr_ajouterRapportsVisite:
+    pattern:  /ajouterRapportsVisite
+    defaults: { _controller: CRGSBRBundle:GSBR:ajouterRapportsVisite }

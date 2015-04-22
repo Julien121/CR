@@ -3,11 +3,16 @@
   Accueil - {{ parent() }}
 {% endblock %}
 {% block body %}
-  <h2>Liste des annonces</h2>
-  <ul>
-    
-  </ul>
-    <ul class="pagination">
-
-    </ul>
+    <div class="row highlight">
+        <div class="col-md-3">
+            <img class="img-thumbnail" src="{{ asset('bundles/GSBR/img/logo.jpg') }}" alt="logo" >
+        </div>
+        <div class="col-md-9">
+                <h1>GSB-Report</h1>
+                <p>
+                    <small>Gestion des rapports de visite</small>
+                </p>
+        </div>
+    </div>
 {% endblock %}
+

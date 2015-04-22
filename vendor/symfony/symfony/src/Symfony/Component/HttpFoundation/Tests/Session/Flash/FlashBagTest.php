@@ -12,17 +12,16 @@
 namespace Symfony\Component\HttpFoundation\Tests\Session\Flash;
 
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 /**
- * FlashBagTest
+ * FlashBagTest.
  *
  * @author Drak <drak@zikula.org>
  */
 class FlashBagTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Symfony\Component\HttpFoundation\SessionFlash\FlashBagInterface
+     * @var \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface
      */
     private $bag;
 
@@ -39,7 +38,7 @@ class FlashBagTest extends \PHPUnit_Framework_TestCase
         $this->bag->initialize($this->array);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->bag = null;
         parent::tearDown();
@@ -91,7 +90,7 @@ class FlashBagTest extends \PHPUnit_Framework_TestCase
         $this->bag->set('error', 'Bar');
         $this->assertEquals(array(
             'notice' => array('Foo'),
-            'error' => array('Bar')), $this->bag->all()
+            'error' => array('Bar'), ), $this->bag->all()
         );
 
         $this->assertEquals(array(), $this->bag->all());
@@ -134,20 +133,6 @@ class FlashBagTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Symfony\Component\HttpFoundation\Session\Flash\FlashBag::count
-     * @expectedException \PHPUnit_Framework_Error_Deprecated
-     */
-    public function testCount()
-    {
-        $flashes = array('hello' => 'world', 'beep' => 'boop', 'notice' => 'nope');
-        foreach ($flashes as $key => $val) {
-            $this->bag->set($key, $val);
-        }
-
-        $this->assertEquals(count($flashes), count($this->bag));
-    }
-
-    /**
      * @covers Symfony\Component\HttpFoundation\Session\Flash\FlashBag::getIterator
      */
     public function testGetIterator()
@@ -164,6 +149,6 @@ class FlashBagTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals(count($flashes), $i);
-        $this->assertEquals(0, count($this->bag->all()));
+        $this->assertCount(0, $this->bag->all());
     }
 }

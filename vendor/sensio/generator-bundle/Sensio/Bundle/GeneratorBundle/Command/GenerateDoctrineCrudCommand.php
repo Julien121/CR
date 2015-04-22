@@ -12,13 +12,17 @@
 namespace Sensio\Bundle\GeneratorBundle\Command;
 
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Sensio\Bundle\GeneratorBundle\Command\AutoComplete\EntitiesAutoCompleter;
+use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
 use Sensio\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator;
 use Sensio\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
-use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Sensio\Bundle\GeneratorBundle\Manipulator\RoutingManipulator;
 
 /**
@@ -28,7 +32,6 @@ use Sensio\Bundle\GeneratorBundle\Manipulator\RoutingManipulator;
  */
 class GenerateDoctrineCrudCommand extends GenerateDoctrineCommand
 {
-    private $generator;
     private $formGenerator;
 
     /**
@@ -38,6 +41,7 @@ class GenerateDoctrineCrudCommand extends GenerateDoctrineCommand
     {
         $this
             ->setDefinition(array(
+                new InputArgument('entity', InputArgument::OPTIONAL, 'The entity class name to initialize (shortcut notation)'),
                 new InputOption('entity', '', InputOption::VALUE_REQUIRED, 'The entity class name to initialize (shortcut notation)'),
                 new InputOption('route-prefix', '', InputOption::VALUE_REQUIRED, 'The route prefix'),
                 new InputOption('with-write', '', InputOption::VALUE_NONE, 'Whether or not to generate create, new and delete actions'),
@@ -55,6 +59,19 @@ The default command only generates the list and show actions.
 Using the --with-write option allows to generate the new, edit and delete actions.
 
 <info>php app/console doctrine:generate:crud --entity=AcmeBlogBundle:Post --route-prefix=post_admin --with-write</info>
+
+Every generated file is based on a template. There are default templates but they can be overridden by placing custom templates in one of the following locations, by order of priority:
+
+<info>BUNDLE_PATH/Resources/SensioGeneratorBundle/skeleton/crud
+APP_PATH/Resources/SensioGeneratorBundle/skeleton/crud</info>
+
+And
+
+<info>__bundle_path__/Resources/SensioGeneratorBundle/skeleton/form
+__project_root__/app/Resources/SensioGeneratorBundle/skeleton/form</info>
+
+You can check https://github.com/sensio/SensioGeneratorBundle/tree/master/Resources/skeleton
+in order to know the file structure of the skeleton
 EOT
             )
             ->setName('doctrine:generate:crud')
@@ -67,10 +84,11 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $questionHelper = $this->getQuestionHelper();
 
         if ($input->isInteractive()) {
-            if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
+            $question = new ConfirmationQuestion($questionHelper->getQuestion('Do you confirm generation', 'yes', '?'), true);
+            if (!$questionHelper->ask($input, $output, $question)) {
                 $output->writeln('<error>Command aborted</error>');
 
                 return 1;
@@ -85,38 +103,42 @@ EOT
         $withWrite = $input->getOption('with-write');
         $forceOverwrite = $input->getOption('overwrite');
 
-        $dialog->writeSection($output, 'CRUD generation');
+        $questionHelper->writeSection($output, 'CRUD generation');
 
-        $entityClass = $this->getContainer()->get('doctrine')->getEntityNamespace($bundle).'\\'.$entity;
+        $entityClass = $this->getContainer()->get('doctrine')->getAliasNamespace($bundle).'\\'.$entity;
         $metadata    = $this->getEntityMetadata($entityClass);
         $bundle      = $this->getContainer()->get('kernel')->getBundle($bundle);
 
-        $generator = $this->getGenerator();
+        $generator = $this->getGenerator($bundle);
         $generator->generate($bundle, $entity, $metadata[0], $format, $prefix, $withWrite, $forceOverwrite);
 
         $output->writeln('Generating the CRUD code: <info>OK</info>');
 
         $errors = array();
-        $runner = $dialog->getRunner($output, $errors);
+        $runner = $questionHelper->getRunner($output, $errors);
 
         // form
         if ($withWrite) {
-            $this->generateForm($bundle, $entity, $metadata);
-            $output->writeln('Generating the Form code: <info>OK</info>');
+            $output->write('Generating the Form code: ');
+            if ($this->generateForm($bundle, $entity, $metadata)) {
+                $output->writeln('<info>OK</info>');
+            } else {
+                $output->writeln('<comment>Already exists, skipping</comment>');
+            }
         }
 
         // routing
         if ('annotation' != $format) {
-            $runner($this->updateRouting($dialog, $input, $output, $bundle, $format, $entity, $prefix));
+            $runner($this->updateRouting($questionHelper, $input, $output, $bundle, $format, $entity, $prefix));
         }
 
-        $dialog->writeGeneratorSummary($output, $errors);
+        $questionHelper->writeGeneratorSummary($output, $errors);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
-        $dialog->writeSection($output, 'Welcome to the Doctrine2 CRUD generator');
+        $questionHelper = $this->getQuestionHelper();
+        $questionHelper->writeSection($output, 'Welcome to the Doctrine2 CRUD generator');
 
         // namespace
         $output->writeln(array(
@@ -131,13 +153,20 @@ EOT
             '',
         ));
 
-        $entity = $dialog->askAndValidate($output, $dialog->getQuestion('The Entity shortcut name', $input->getOption('entity')), array('Sensio\Bundle\GeneratorBundle\Command\Validators', 'validateEntityName'), false, $input->getOption('entity'));
+        if ($input->hasArgument('entity') && $input->getArgument('entity') != '') {
+            $input->setOption('entity', $input->getArgument('entity'));
+        }
+
+        $question = new Question($questionHelper->getQuestion('The Entity shortcut name', $input->getOption('entity')), $input->getOption('entity'));
+        $question->setValidator(array('Sensio\Bundle\GeneratorBundle\Command\Validators', 'validateEntityName'));
+
+        $autocompleter = new EntitiesAutoCompleter($this->getContainer()->get('doctrine')->getManager());
+        $autocompleteEntities = $autocompleter->getSuggestions();
+        $question->setAutocompleterValues($autocompleteEntities);
+        $entity = $questionHelper->ask($input, $output, $question);
+
         $input->setOption('entity', $entity);
         list($bundle, $entity) = $this->parseShortcutNotation($entity);
-
-        // Entity exists?
-        $entityClass = $this->getContainer()->get('doctrine')->getEntityNamespace($bundle).'\\'.$entity;
-        $metadata = $this->getEntityMetadata($entityClass);
 
         // write?
         $withWrite = $input->getOption('with-write') ?: false;
@@ -147,7 +176,9 @@ EOT
             'You can also ask it to generate "write" actions: new, update, and delete.',
             '',
         ));
-        $withWrite = $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate the "write" actions', $withWrite ? 'yes' : 'no', '?'), $withWrite);
+        $question = new ConfirmationQuestion($questionHelper->getQuestion('Do you want to generate the "write" actions', $withWrite ? 'yes' : 'no', '?', $withWrite), $withWrite);
+
+        $withWrite = $questionHelper->ask($input, $output, $question);
         $input->setOption('with-write', $withWrite);
 
         // format
@@ -157,7 +188,9 @@ EOT
             'Determine the format to use for the generated CRUD.',
             '',
         ));
-        $format = $dialog->askAndValidate($output, $dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $format), array('Sensio\Bundle\GeneratorBundle\Command\Validators', 'validateFormat'), false, $format);
+        $question = new Question($questionHelper->getQuestion('Configuration format (yml, xml, php, or annotation)', $format), $format);
+        $question->setValidator(array('Sensio\Bundle\GeneratorBundle\Command\Validators', 'validateFormat'));
+        $format = $questionHelper->ask($input, $output, $question);
         $input->setOption('format', $format);
 
         // route prefix
@@ -168,7 +201,7 @@ EOT
             'prefix: /prefix/, /prefix/new, ...).',
             '',
         ));
-        $prefix = $dialog->ask($output, $dialog->getQuestion('Routes prefix', '/'.$prefix), '/'.$prefix);
+        $prefix = $questionHelper->ask($input, $output, new Question($questionHelper->getQuestion('Routes prefix', '/'.$prefix), '/'.$prefix));
         $input->setOption('route-prefix', $prefix);
 
         // summary
@@ -188,17 +221,20 @@ EOT
     protected function generateForm($bundle, $entity, $metadata)
     {
         try {
-            $this->getFormGenerator()->generate($bundle, $entity, $metadata[0]);
-        } catch (\RuntimeException $e ) {
-            // form already exists
+            $this->getFormGenerator($bundle)->generate($bundle, $entity, $metadata[0]);
+        } catch (\RuntimeException $e) {
+            return false;
         }
+
+        return true;
     }
 
-    protected function updateRouting($dialog, InputInterface $input, OutputInterface $output, $bundle, $format, $entity, $prefix)
+    protected function updateRouting(QuestionHelper $questionHelper, InputInterface $input, OutputInterface $output, BundleInterface $bundle, $format, $entity, $prefix)
     {
         $auto = true;
         if ($input->isInteractive()) {
-            $auto = $dialog->askConfirmation($output, $dialog->getQuestion('Confirm automatic update of the Routing', 'yes', '?'), true);
+            $question = new ConfirmationQuestion($questionHelper->getQuestion('Confirm automatic update of the Routing', 'yes', '?'), true);
+            $auto = $questionHelper->ask($input, $output, $question);
         }
 
         $output->write('Importing the CRUD routes: ');
@@ -236,24 +272,16 @@ EOT
         return $prefix;
     }
 
-    protected function getGenerator()
+    protected function createGenerator($bundle = null)
     {
-        if (null === $this->generator) {
-            $this->generator = new DoctrineCrudGenerator($this->getContainer()->get('filesystem'), __DIR__.'/../Resources/skeleton/crud');
-        }
-
-        return $this->generator;
+        return new DoctrineCrudGenerator($this->getContainer()->get('filesystem'));
     }
 
-    public function setGenerator(DoctrineCrudGenerator $generator)
-    {
-        $this->generator = $generator;
-    }
-
-    protected function getFormGenerator()
+    protected function getFormGenerator($bundle = null)
     {
         if (null === $this->formGenerator) {
-            $this->formGenerator = new DoctrineFormGenerator($this->getContainer()->get('filesystem'),  __DIR__.'/../Resources/skeleton/form');
+            $this->formGenerator = new DoctrineFormGenerator($this->getContainer()->get('filesystem'));
+            $this->formGenerator->setSkeletonDirs($this->getSkeletonDirs($bundle));
         }
 
         return $this->formGenerator;
@@ -262,15 +290,5 @@ EOT
     public function setFormGenerator(DoctrineFormGenerator $formGenerator)
     {
         $this->formGenerator = $formGenerator;
-    }
-
-    protected function getDialogHelper()
-    {
-        $dialog = $this->getHelperSet()->get('dialog');
-        if (!$dialog || get_class($dialog) !== 'Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper') {
-            $this->getHelperSet()->set($dialog = new DialogHelper());
-        }
-
-        return $dialog;
     }
 }

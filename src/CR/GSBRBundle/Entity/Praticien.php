@@ -262,4 +262,14 @@ class Praticien
     {
         return $this->typeMedecin;
     }
+    
+    /**
+     * Get NomPrenom
+     *
+     * @return string 
+     */
+    public function getPrenomNom() 
+    {
+        return $this->getPrenomMedecin() . ' ' . $this->getNomMedecin();
+    }
 }

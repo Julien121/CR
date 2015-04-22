@@ -42,12 +42,10 @@ class ActionsHelper extends Helper
      *
      * @return string The fragment content
      *
-     * @see Symfony\Component\HttpKernel\Fragment\FragmentHandler::render()
+     * @see FragmentHandler::render()
      */
     public function render($uri, array $options = array())
     {
-        $options = $this->handler->fixOptions($options);
-
         $strategy = isset($options['strategy']) ? $options['strategy'] : 'inline';
         unset($options['strategy']);
 

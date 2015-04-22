@@ -19,6 +19,7 @@ use Symfony\Component\DependencyInjection\Parameter;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 /**
  * YamlDumper dumps a service container as a YAML string.
@@ -60,7 +61,7 @@ class YamlDumper extends Dumper
     }
 
     /**
-     * Adds a service
+     * Adds a service.
      *
      * @param string     $id
      * @param Definition $definition
@@ -74,6 +75,10 @@ class YamlDumper extends Dumper
             $code .= sprintf("        class: %s\n", $definition->getClass());
         }
 
+        if (!$definition->isPublic()) {
+            $code .= "        public: false\n";
+        }
+
         $tagsCode = '';
         foreach ($definition->getTags() as $name => $tags) {
             foreach ($tags as $attributes) {
@@ -81,7 +86,7 @@ class YamlDumper extends Dumper
                 foreach ($attributes as $key => $value) {
                     $att[] = sprintf('%s: %s', $this->dumper->dump($key), $this->dumper->dump($value));
                 }
-                $att = $att ? ', '.implode(' ', $att) : '';
+                $att = $att ? ', '.implode(', ', $att) : '';
 
                 $tagsCode .= sprintf("            - { name: %s%s }\n", $this->dumper->dump($name), $att);
             }
@@ -92,6 +97,22 @@ class YamlDumper extends Dumper
 
         if ($definition->getFile()) {
             $code .= sprintf("        file: %s\n", $definition->getFile());
+        }
+
+        if ($definition->isSynthetic()) {
+            $code .= sprintf("        synthetic: true\n");
+        }
+
+        if ($definition->isSynchronized()) {
+            $code .= sprintf("        synchronized: true\n");
+        }
+
+        if ($definition->getFactoryClass()) {
+            $code .= sprintf("        factory_class: %s\n", $definition->getFactoryClass());
+        }
+
+        if ($definition->isLazy()) {
+            $code .= sprintf("        lazy: true\n");
         }
 
         if ($definition->getFactoryMethod()) {
@@ -118,23 +139,27 @@ class YamlDumper extends Dumper
             $code .= sprintf("        scope: %s\n", $scope);
         }
 
-        if ($callable = $definition->getConfigurator()) {
-            if (is_array($callable)) {
-                if ($callable[0] instanceof Reference) {
-                    $callable = array($this->getServiceCall((string) $callable[0], $callable[0]), $callable[1]);
-                } else {
-                    $callable = array($callable[0], $callable[1]);
-                }
+        if (null !== $decorated = $definition->getDecoratedService()) {
+            list($decorated, $renamedId) = $decorated;
+            $code .= sprintf("        decorates: %s\n", $decorated);
+            if (null !== $renamedId) {
+                $code .= sprintf("        decoration_inner_name: %s\n", $renamedId);
             }
+        }
 
-            $code .= sprintf("        configurator: %s\n", $this->dumper->dump($callable, 0));
+        if ($callable = $definition->getFactory()) {
+            $code .= sprintf("        factory: %s\n", $this->dumper->dump($this->dumpCallable($callable), 0));
+        }
+
+        if ($callable = $definition->getConfigurator()) {
+            $code .= sprintf("        configurator: %s\n", $this->dumper->dump($this->dumpCallable($callable), 0));
         }
 
         return $code;
     }
 
     /**
-     * Adds a service alias
+     * Adds a service alias.
      *
      * @param string $alias
      * @param Alias  $id
@@ -151,7 +176,7 @@ class YamlDumper extends Dumper
     }
 
     /**
-     * Adds services
+     * Adds services.
      *
      * @return string
      */
@@ -166,7 +191,11 @@ class YamlDumper extends Dumper
             $code .= $this->addService($id, $definition);
         }
 
-        foreach ($this->container->getAliases() as $alias => $id) {
+        $aliases = $this->container->getAliases();
+        foreach ($aliases as $alias => $id) {
+            while (isset($aliases[(string) $id])) {
+                $id = $aliases[(string) $id];
+            }
             $code .= $this->addServiceAlias($alias, $id);
         }
 
@@ -174,7 +203,7 @@ class YamlDumper extends Dumper
     }
 
     /**
-     * Adds parameters
+     * Adds parameters.
      *
      * @return string
      */
@@ -190,7 +219,27 @@ class YamlDumper extends Dumper
     }
 
     /**
-     * Dumps the value to YAML format
+     * Dumps callable to YAML format
+     *
+     * @param callable $callable
+     *
+     * @return callable
+     */
+    private function dumpCallable($callable)
+    {
+        if (is_array($callable)) {
+            if ($callable[0] instanceof Reference) {
+                $callable = array($this->getServiceCall((string) $callable[0], $callable[0]), $callable[1]);
+            } else {
+                $callable = array($callable[0], $callable[1]);
+            }
+        }
+
+        return $callable;
+    }
+
+    /**
+     * Dumps the value to YAML format.
      *
      * @param mixed $value
      *
@@ -211,6 +260,8 @@ class YamlDumper extends Dumper
             return $this->getServiceCall((string) $value, $value);
         } elseif ($value instanceof Parameter) {
             return $this->getParameterCall((string) $value);
+        } elseif ($value instanceof Expression) {
+            return $this->getExpressionCall((string) $value);
         } elseif (is_object($value) || is_resource($value)) {
             throw new RuntimeException('Unable to dump a service container if a parameter is an object or a resource.');
         }
@@ -247,10 +298,16 @@ class YamlDumper extends Dumper
         return sprintf('%%%s%%', $id);
     }
 
+    private function getExpressionCall($expression)
+    {
+        return sprintf('@=%s', $expression);
+    }
+
     /**
-     * Prepares parameters
+     * Prepares parameters.
      *
      * @param array $parameters
+     * @param bool  $escape
      *
      * @return array
      */
@@ -271,7 +328,7 @@ class YamlDumper extends Dumper
     }
 
     /**
-     * Escapes arguments
+     * Escapes arguments.
      *
      * @param array $arguments
      *

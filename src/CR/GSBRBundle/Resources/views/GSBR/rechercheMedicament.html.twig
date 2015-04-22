@@ -1,0 +1,52 @@
+{% extends "CRGSBRBundle::layout.html.twig" %}
+{% block title %}
+  Accueil - {{ parent() }}
+{% endblock %}
+{% block body %}
+
+    <h2>Recherche de médicaments</h2>
+    <hr>
+
+    <form method="POST" action="{{ path('crgsbr_rechercheMedicament')}}" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Famille</label>
+            <div class="col-sm-6">
+                <select class="form-control" id="idFamille" name="idFamille">
+                    {% for unefamilles in lesFamilles %}
+                        <option value="{{ unefamilles.getId }}"> {{ unefamilles.getLibelleFamille }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Rechercher</button>
+        </div>
+    </form>
+    {% if resultats %}
+
+    <h2>Résultats de la recherche</h2>
+    <hr>
+
+   <table class="table table-bordered table-condensed table-body-center" >
+        <thead>
+            <tr>
+                <th>Nom commercial</th>
+                <th>Famille</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for resultat in resultats %}
+                <tr>
+
+                    <td data-title="Valeur alphanumérique">
+                        {{ resultat.nomCommercial }}
+                    </td>
+                    <td data-title="Valeur alphanumérique">
+                        {{ resultat.getFamille.getLibelleFamille }}
+                    </td>
+                </tr>  
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+{% endblock %}  

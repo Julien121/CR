@@ -1,6 +1,30 @@
 CHANGELOG
 =========
 
+2.6.0
+-----
+
+ * added Symfony\Component\Security\Http\Authentication\AuthenticationUtils
+ * Deprecated the `SecurityContext` class in favor of the `AuthorizationChecker` and `TokenStorage` classes
+
+2.4.0
+-----
+
+ * The switch user listener now preserves the query string when switching a user
+ * The remember-me cookie hashes now use HMAC, which means that current cookies will be invalidated
+ * added simpler customization options
+ * structured component into three sub-components Acl, Core and Http
+ * added Csrf sub-component
+ * changed Http sub-component to depend on Csrf sub-component instead of the Form component
+
+2.3.0
+-----
+
+ * [BC BREAK] the BCrypt encoder constructor signature has changed (the first argument was removed)
+   To use the BCrypt encoder, you now need PHP 5.5 or "ircmaxell/password-compat" as a composer dependency
+ * [BC BREAK] return 401 instead of 500 when using use_forward during for form authentication
+ * added a `require_previous_session` option to `AbstractAuthenticationListener`
+
 2.2.0
 -----
 

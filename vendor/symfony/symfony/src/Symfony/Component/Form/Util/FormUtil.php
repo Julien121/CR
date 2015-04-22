@@ -11,29 +11,16 @@
 
 namespace Symfony\Component\Form\Util;
 
-use Symfony\Component\PropertyAccess\StringUtil;
-
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
 class FormUtil
 {
     /**
-     * This class should not be instantiated
+     * This class should not be instantiated.
      */
-    private function __construct() {}
-
-    /**
-     * Alias for {@link StringUtil::singularify()}
-     *
-     * @deprecated Deprecated since version 2.2, to be removed in 2.3. Use
-     *             {@link StringUtil::singularify()} instead.
-     */
-    public static function singularify($plural)
+    private function __construct()
     {
-        trigger_error('\Symfony\Component\Form\Util\FormUtil::singularify() is deprecated since version 2.2 and will be removed in 2.3. Use \Symfony\Component\PropertyAccess\StringUtil::singularify() in the PropertyAccess component instead.', E_USER_DEPRECATED);
-
-        return StringUtil::singularify($plural);
     }
 
     /**
@@ -43,9 +30,9 @@ class FormUtil
      * a form and needs to be consistent. PHP's keyword `empty` cannot
      * be used as it also considers 0 and "0" to be empty.
      *
-     * @param  mixed $data
+     * @param mixed $data
      *
-     * @return Boolean
+     * @return bool
      */
     public static function isEmpty($data)
     {

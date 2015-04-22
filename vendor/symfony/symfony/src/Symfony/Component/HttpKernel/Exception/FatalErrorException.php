@@ -11,12 +11,11 @@
 
 namespace Symfony\Component\HttpKernel\Exception;
 
-/**
+/*
  * Fatal Error Exception.
  *
  * @author Konstanton Myakshin <koc-dp@yandex.ru>
+ *
+ * @deprecated Deprecated in 2.3, to be removed in 3.0. Use the same class from the Debug component instead.
  */
-class FatalErrorException extends \ErrorException
-{
-
-}
+class_exists('Symfony\Component\Debug\Exception\FatalErrorException');

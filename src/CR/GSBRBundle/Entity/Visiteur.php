@@ -208,6 +208,10 @@ class Visiteur implements UserInterface
     {
         return $this->mdp;
     }
+    public function getMdp()
+    {
+        return $this->mdp;
+    }
 
     /**
      * Set adresse

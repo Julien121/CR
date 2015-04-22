@@ -11,10 +11,10 @@
 
 namespace Symfony\Component\Form\Extension\Core\ChoiceList;
 
-use Symfony\Component\Form\Exception\Exception;
+use Symfony\Component\Form\Exception\InvalidArgumentException;
 
 /**
- * A choice list that is loaded lazily
+ * A choice list that is loaded lazily.
  *
  * This list loads itself as soon as any of the getters is accessed for the
  * first time. You should implement loadChoiceList() in your child classes,
@@ -25,7 +25,7 @@ use Symfony\Component\Form\Exception\Exception;
 abstract class LazyChoiceList implements ChoiceListInterface
 {
     /**
-     * The loaded choice list
+     * The loaded choice list.
      *
      * @var ChoiceListInterface
      */
@@ -105,6 +105,8 @@ abstract class LazyChoiceList implements ChoiceListInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Deprecated since version 2.4, to be removed in 3.0.
      */
     public function getIndicesForChoices(array $choices)
     {
@@ -117,6 +119,8 @@ abstract class LazyChoiceList implements ChoiceListInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated Deprecated since version 2.4, to be removed in 3.0.
      */
     public function getIndicesForValues(array $values)
     {
@@ -128,7 +132,7 @@ abstract class LazyChoiceList implements ChoiceListInterface
     }
 
     /**
-     * Loads the choice list
+     * Loads the choice list.
      *
      * Should be implemented by child classes.
      *
@@ -141,7 +145,7 @@ abstract class LazyChoiceList implements ChoiceListInterface
         $choiceList = $this->loadChoiceList();
 
         if (!$choiceList instanceof ChoiceListInterface) {
-            throw new Exception('loadChoiceList() should return a ChoiceListInterface instance. Got ' . gettype($choiceList));
+            throw new InvalidArgumentException(sprintf('loadChoiceList() should return a ChoiceListInterface instance. Got %s', gettype($choiceList)));
         }
 
         $this->choiceList = $choiceList;

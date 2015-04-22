@@ -38,7 +38,7 @@ class Medicament
     /**
     * @ORM\ManyToOne(targetEntity="CR\GSBRBundle\Entity\Famille")
      */
-    private $Famille;
+    private $famille;
 
     /**
      * @var string
@@ -248,7 +248,7 @@ class Medicament
      */
     public function setFamille(\CR\GSBRBundle\Entity\Famille $famille = null)
     {
-        $this->Famille = $famille;
+        $this->famille = $famille;
     
         return $this;
     }
@@ -260,6 +260,6 @@ class Medicament
      */
     public function getFamille()
     {
-        return $this->Famille;
+        return $this->famille;
     }
 }

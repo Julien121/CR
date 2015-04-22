@@ -14,7 +14,9 @@ namespace Symfony\Bundle\WebProfilerBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\Routing\Matcher\TraceableUrlMatcher;
+use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 
 /**
@@ -29,16 +31,12 @@ class RouterController
     private $matcher;
     private $routes;
 
-    public function __construct(Profiler $profiler, \Twig_Environment $twig, UrlMatcherInterface $matcher = null, $routes = null)
+    public function __construct(Profiler $profiler = null, \Twig_Environment $twig, UrlMatcherInterface $matcher = null, RouteCollection $routes = null)
     {
         $this->profiler = $profiler;
         $this->twig = $twig;
         $this->matcher = $matcher;
-        $this->routes = $routes;
-
-        if (null === $this->routes && null !== $this->matcher && $this->matcher instanceof RouterInterface) {
-            $this->routes = $matcher->getRouteCollection();
-        }
+        $this->routes = (null === $routes && $matcher instanceof RouterInterface) ? $matcher->getRouteCollection() : $routes;
     }
 
     /**
@@ -47,9 +45,15 @@ class RouterController
      * @param string $token The profiler token
      *
      * @return Response A Response instance
+     *
+     * @throws NotFoundHttpException
      */
     public function panelAction($token)
     {
+        if (null === $this->profiler) {
+            throw new NotFoundHttpException('The profiler must be enabled.');
+        }
+
         $this->profiler->disable();
 
         if (null === $this->matcher || null === $this->routes) {
@@ -66,8 +70,8 @@ class RouterController
 
         return new Response($this->twig->render('@WebProfiler/Router/panel.html.twig', array(
             'request' => $request,
-            'router'  => $profile->getCollector('router'),
-            'traces'  => $matcher->getTraces($request->getPathInfo()),
+            'router' => $profile->getCollector('router'),
+            'traces' => $matcher->getTraces($request->getPathInfo()),
         )), 200, array('Content-Type' => 'text/html'));
     }
 }

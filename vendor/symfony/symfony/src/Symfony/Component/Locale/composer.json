@@ -16,20 +16,20 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.3.3",
+        "symfony/intl": "~2.3"
     },
-    "suggest": {
-        "ext-intl": "to use other locales than built-in `en`"
+    "require-dev": {
+        "symfony/phpunit-bridge": "~2.7"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Component\\Locale\\": "" },
-        "classmap": [ "Symfony/Component/Locale/Resources/stubs" ]
+        "psr-0": { "Symfony\\Component\\Locale\\": "" }
     },
     "target-dir": "Symfony/Component/Locale",
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.2-dev"
+            "dev-master": "2.6-dev"
         }
     }
 }

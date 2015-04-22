@@ -45,15 +45,15 @@ class PropelUserProvider implements UserProviderInterface
     protected $property;
 
     /**
-     * Default constructor
+     * Default constructor.
      *
-     * @param $class        The User model class.
-     * @param $property     The property to use to retrieve a user.
+     * @param string      $class    The User model class.
+     * @param string|null $property The property to use to retrieve a user.
      */
     public function __construct($class, $property = null)
     {
         $this->class = $class;
-        $this->queryClass = $class . 'Query';
+        $this->queryClass = $class.'Query';
         $this->property = $property;
     }
 
@@ -63,10 +63,10 @@ class PropelUserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         $queryClass = $this->queryClass;
-        $query      = $queryClass::create();
+        $query = $queryClass::create();
 
         if (null !== $this->property) {
-            $filter = 'filterBy' . ucfirst($this->property);
+            $filter = 'filterBy'.ucfirst($this->property);
             $query->$filter($username);
         } else {
             $query->filterByUsername($username);

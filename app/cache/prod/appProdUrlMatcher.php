@@ -5,7 +5,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 
 /**
- * appProdUrlMatcher
+ * appProdUrlMatcher.
  *
  * This class has been auto-generated
  * by the Symfony Routing Component.
@@ -24,14 +24,12 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
     {
         $allow = array();
         $pathinfo = rawurldecode($pathinfo);
+        $context = $this->context;
+        $request = $this->request;
 
-        // crgsbr_homepage
-        if (rtrim($pathinfo, '/') === '') {
-            if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'crgsbr_homepage');
-            }
-
-            return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::indexAction',  '_route' => 'crgsbr_homepage',);
+        // homepage
+        if ($pathinfo === '/app/example') {
+            return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

@@ -17,6 +17,8 @@ use Symfony\Bundle\TwigBundle\Node\RenderNode;
  * Token Parser for the render tag.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @deprecated since version 2.2, to be removed in 3.0.
  */
 class RenderTokenParser extends \Twig_TokenParser
 {
@@ -30,13 +32,6 @@ class RenderTokenParser extends \Twig_TokenParser
     public function parse(\Twig_Token $token)
     {
         $expr = $this->parser->getExpressionParser()->parseExpression();
-
-        // attributes (not used anymore, kept for BC reasons)
-        // @deprecated in 2.2 and will be removed in 2.3
-        if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'with')) {
-            $this->parser->getStream()->next();
-            $this->parser->getExpressionParser()->parseExpression();
-        }
 
         // options
         if ($this->parser->getStream()->test(\Twig_Token::PUNCTUATION_TYPE, ',')) {

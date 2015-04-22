@@ -24,37 +24,43 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
 {
     /**
      * Character used for separating between plural and singular of an element.
+     *
      * @var string
      */
     const SINGULAR_SEPARATOR = '|';
 
     /**
-     * The elements of the property path
+     * The elements of the property path.
+     *
      * @var array
      */
     private $elements = array();
 
     /**
      * The singular forms of the elements in the property path.
+     *
      * @var array
      */
     private $singulars = array();
 
     /**
-     * The number of elements in the property path
-     * @var integer
+     * The number of elements in the property path.
+     *
+     * @var int
      */
     private $length;
 
     /**
      * Contains a Boolean for each property in $elements denoting whether this
      * element is an index. It is a property otherwise.
+     *
      * @var array
      */
     private $isIndex = array();
 
     /**
-     * String representation of the path
+     * String representation of the path.
+     *
      * @var string
      */
     private $pathAsString;
@@ -103,8 +109,7 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
                 $element = $matches[3];
                 $this->isIndex[] = true;
             }
-            // Disabled this behaviour as the syntax is not yet final
-            //$pos = strpos($element, self::SINGULAR_SEPARATOR);
+
             $pos = false;
             $singular = null;
 
@@ -118,14 +123,14 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
 
             $position += strlen($matches[1]);
             $remaining = $matches[4];
-            $pattern = '/^(\.(\w+)|\[([^\]]+)\])(.*)/';
+            $pattern = '/^(\.([^\.|\[]+)|\[([^\]]+)\])(.*)/';
         }
 
         if ('' !== $remaining) {
             throw new InvalidPropertyPathException(sprintf(
                 'Could not parse property path "%s". Unexpected token "%s" at position %d',
                 $propertyPath,
-                $remaining{0},
+                $remaining[0],
                 $position
             ));
         }
@@ -155,7 +160,7 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
     public function getParent()
     {
         if ($this->length <= 1) {
-            return null;
+            return;
         }
 
         $parent = clone $this;
@@ -170,7 +175,7 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
     }
 
     /**
-     * Returns a new iterator for this path
+     * Returns a new iterator for this path.
      *
      * @return PropertyPathIteratorInterface
      */
@@ -193,7 +198,7 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
     public function getElement($index)
     {
         if (!isset($this->elements[$index])) {
-            throw new OutOfBoundsException('The index ' . $index . ' is not within the property path');
+            throw new OutOfBoundsException(sprintf('The index %s is not within the property path', $index));
         }
 
         return $this->elements[$index];
@@ -205,7 +210,7 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
     public function isProperty($index)
     {
         if (!isset($this->isIndex[$index])) {
-            throw new OutOfBoundsException('The index ' . $index . ' is not within the property path');
+            throw new OutOfBoundsException(sprintf('The index %s is not within the property path', $index));
         }
 
         return !$this->isIndex[$index];
@@ -217,7 +222,7 @@ class PropertyPath implements \IteratorAggregate, PropertyPathInterface
     public function isIndex($index)
     {
         if (!isset($this->isIndex[$index])) {
-            throw new OutOfBoundsException('The index ' . $index . ' is not within the property path');
+            throw new OutOfBoundsException(sprintf('The index %s is not within the property path', $index));
         }
 
         return $this->isIndex[$index];

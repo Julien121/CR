@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
     /**
      * Generates the configuration tree builder.
      *
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
+     * @return TreeBuilder The tree builder
      */
     public function getConfigTreeBuilder()
     {
@@ -39,6 +39,7 @@ class Configuration implements ConfigurationInterface
         ;
 
         $this->addFormSection($rootNode);
+        $this->addFormThemesSection($rootNode);
         $this->addGlobalsSection($rootNode);
         $this->addTwigOptions($rootNode);
 
@@ -48,8 +49,19 @@ class Configuration implements ConfigurationInterface
     private function addFormSection(ArrayNodeDefinition $rootNode)
     {
         $rootNode
+            ->validate()
+                ->ifTrue(function ($v) {
+                    return count($v['form']['resources']) > 0;
+                })
+                ->then(function ($v) {
+                    $v['form_themes'] = array_values(array_unique(array_merge($v['form']['resources'], $v['form_themes'])));
+
+                    return $v;
+                })
+            ->end()
             ->children()
                 ->arrayNode('form')
+                    ->info('Deprecated since 2.6, to be removed in 3.0. Use twig.form_themes instead')
                     ->addDefaultsIfNotSet()
                     ->fixXmlConfig('resource')
                     ->children()
@@ -58,12 +70,32 @@ class Configuration implements ConfigurationInterface
                             ->prototype('scalar')->defaultValue('form_div_layout.html.twig')->end()
                             ->example(array('MyBundle::form.html.twig'))
                             ->validate()
-                                ->ifTrue(function($v) { return !in_array('form_div_layout.html.twig', $v); })
-                                ->then(function($v){
+                                ->ifTrue(function ($v) { return !in_array('form_div_layout.html.twig', $v); })
+                                ->then(function ($v) {
                                     return array_merge(array('form_div_layout.html.twig'), $v);
                                 })
                             ->end()
                         ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+    }
+
+    private function addFormThemesSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->fixXmlConfig('form_theme')
+            ->children()
+                ->arrayNode('form_themes')
+                    ->addDefaultChildrenIfNoneSet()
+                    ->prototype('scalar')->defaultValue('form_div_layout.html.twig')->end()
+                    ->example(array('MyBundle::form.html.twig'))
+                    ->validate()
+                        ->ifTrue(function ($v) { return !in_array('form_div_layout.html.twig', $v); })
+                        ->then(function ($v) {
+                            return array_merge(array('form_div_layout.html.twig'), $v);
+                        })
                     ->end()
                 ->end()
             ->end()
@@ -81,11 +113,17 @@ class Configuration implements ConfigurationInterface
                     ->example(array('foo' => '"@bar"', 'pi' => 3.14))
                     ->prototype('array')
                         ->beforeNormalization()
-                            ->ifTrue(function($v){ return is_string($v) && 0 === strpos($v, '@'); })
-                            ->then(function($v){ return array('id' => substr($v, 1), 'type' => 'service'); })
+                            ->ifTrue(function ($v) { return is_string($v) && 0 === strpos($v, '@'); })
+                            ->then(function ($v) {
+                                if (0 === strpos($v, '@@')) {
+                                    return substr($v, 1);
+                                }
+
+                                return array('id' => substr($v, 1), 'type' => 'service');
+                            })
                         ->end()
                         ->beforeNormalization()
-                            ->ifTrue(function($v){
+                            ->ifTrue(function ($v) {
                                 if (is_array($v)) {
                                     $keys = array_keys($v);
                                     sort($keys);
@@ -95,7 +133,7 @@ class Configuration implements ConfigurationInterface
 
                                 return true;
                             })
-                            ->then(function($v){ return array('value' => $v); })
+                            ->then(function ($v) { return array('value' => $v); })
                         ->end()
                         ->children()
                             ->scalarNode('id')->end()
@@ -118,7 +156,11 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->fixXmlConfig('path')
             ->children()
-                ->scalarNode('autoescape')->end()
+                ->variableNode('autoescape')
+                    ->defaultValue(array('Symfony\Bundle\TwigBundle\TwigDefaultEscapingStrategy', 'guess'))
+                ->end()
+                ->scalarNode('autoescape_service')->defaultNull()->end()
+                ->scalarNode('autoescape_service_method')->defaultNull()->end()
                 ->scalarNode('base_template_class')->example('Twig_Template')->end()
                 ->scalarNode('cache')->defaultValue('%kernel.cache_dir%/twig')->end()
                 ->scalarNode('charset')->defaultValue('%kernel.charset%')->end()
@@ -128,6 +170,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('optimizations')->end()
                 ->arrayNode('paths')
                     ->normalizeKeys(false)
+                    ->useAttributeAsKey('paths')
                     ->beforeNormalization()
                         ->always()
                         ->then(function ($paths) {

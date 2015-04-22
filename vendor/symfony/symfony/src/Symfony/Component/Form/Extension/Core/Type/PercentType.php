@@ -33,8 +33,8 @@ class PercentType extends AbstractType
     {
         $resolver->setDefaults(array(
             'precision' => 0,
-            'type'      => 'fractional',
-            'compound'  => false,
+            'type' => 'fractional',
+            'compound' => false,
         ));
 
         $resolver->setAllowedValues(array(
@@ -43,14 +43,6 @@ class PercentType extends AbstractType
                 'integer',
             ),
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return 'field';
     }
 
     /**

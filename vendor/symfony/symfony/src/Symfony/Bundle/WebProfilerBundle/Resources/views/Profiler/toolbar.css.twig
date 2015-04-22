@@ -13,11 +13,16 @@
     background-image: -o-linear-gradient(top, #e4e4e4, #ffffff);
     background: linear-gradient(top, #e4e4e4, #ffffff);
 
-    -moz-border-radius: 16px 0 0 0;
-    -webkit-border-radius: 16px 0 0 0;
     border-radius: 16px 0 0 0;
 
     z-index: 6000000;
+}
+
+.sf-toolbarreset * {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    vertical-align: baseline;
 }
 
 .sf-toolbarreset {
@@ -25,7 +30,6 @@
     background-color: #f7f7f7;
     left: 0;
     right: 0;
-    height: 38px;
     margin: 0;
     padding: 0 40px 0 0;
     z-index: 6000000;
@@ -46,14 +50,25 @@
     cursor: help;
 }
 .sf-toolbarreset span,
-.sf-toolbarreset div {
+.sf-toolbarreset div,
+.sf-toolbarreset td,
+.sf-toolbarreset th {
     font-size: 11px;
 }
 .sf-toolbarreset img {
     width: auto;
     display: inline;
 }
-
+.sf-toolbarreset table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: 100%;
+    table-layout: auto;
+}
 .sf-toolbarreset .hide-button {
     display: block;
     position: absolute;
@@ -72,6 +87,7 @@
     color: #2f2f2f;
     display: block;
     min-height: 28px;
+    border-bottom: 1px solid #e4e4e4;
     border-right: 1px solid #e4e4e4;
     padding: 0;
     float: left;
@@ -134,10 +150,6 @@
     border-radius: 4px 4px 0 0;
 }
 
-.sf-toolbarreset > div:last-of-type .sf-toolbar-info {
-    right: -1px;
-}
-
 .sf-toolbar-block .sf-toolbar-info:empty {
     visibility: hidden;
 }
@@ -183,6 +195,7 @@
 .sf-toolbar-block .sf-toolbar-icon > a,
 .sf-toolbar-block .sf-toolbar-icon > span {
     display: block;
+    font-weight: normal;
     text-decoration: none;
     margin: 0;
     padding: 5px 8px;
@@ -195,6 +208,10 @@
 .sf-toolbar-block .sf-toolbar-icon > a:link
 .sf-toolbar-block .sf-toolbar-icon > a:hover {
     color: black !important;
+}
+
+.sf-toolbar-block .sf-toolbar-icon > a[href]:after {
+    content: "";
 }
 
 .sf-toolbar-block .sf-toolbar-icon img {
@@ -271,6 +288,60 @@
     box-sizing: border-box;
     padding: 9px;
     line-height: 19px;
+
+    max-width: 480px;
+    max-height: 480px;
+    word-wrap: break-word;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.sf-toolbar-ajax-requests th, .sf-toolbar-ajax-requests td {
+    border-bottom: 1px solid #ddd;
+    padding: 0 4px;
+    color: #2f2f2f;
+    background-color: #fff;
+}
+.sf-toolbar-ajax-requests th {
+    background-color: #eee;
+}
+.sf-ajax-request-url {
+    max-width: 300px;
+    line-height: 9px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sf-ajax-request-duration {
+    text-align: right;
+}
+.sf-ajax-request-error {
+    color: #a33;
+}
+.sf-ajax-request-loading {
+    -webkit-animation: sf-blink .5s ease-in-out infinite;
+    -o-animation: sf-blink .5s ease-in-out infinite;
+    -moz-animation: sf-blink .5s ease-in-out infinite;
+    animation: sf-blink .5s ease-in-out infinite;
+}
+@-webkit-keyframes sf-blink {
+    0% { color: black; }
+    50% { color: #bbb; }
+    100% { color: black; }
+}
+@-moz-keyframes sf-blink {
+    0% { color: black; }
+    50% { color: #bbb; }
+    100% { color: black; }
+}
+@-o-keyframes sf-blink {
+    0% { color: black; }
+    50% { color: #bbb; }
+    100% { color: black; }
+}
+@keyframes sf-blink {
+    0% { color: black; }
+    50% { color: #bbb; }
+    100% { color: black; }
 }
 
 /***** Override the setting when the toolbar is on the top *****/
@@ -287,8 +358,6 @@
         background-image: -o-linear-gradient(135deg, #e4e4e4, #ffffff);
         background: linear-gradient(225deg, #e4e4e4, #ffffff);
 
-        -moz-border-radius: 0 0 0 16px;
-        -webkit-border-radius: 0 0 0 16px;
         border-radius: 0 0 0 16px;
     }
 
@@ -323,10 +392,10 @@
         position: static;
         background: #cbcbcb;
 
-        background-image: -moz-linear-gradient(90deg, #cbcbcb, #e8e8e8); !important;
-        background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#cbcbcb), to(#e8e8e8)); !important;
-        background-image: -o-linear-gradient(180deg, #cbcbcb, #e8e8e8); !important;
-        background: linear-gradient(90deg, #cbcbcb, #e8e8e8); !important;
+        background-image: -moz-linear-gradient(90deg, #cbcbcb, #e8e8e8) !important;
+        background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#cbcbcb), to(#e8e8e8)) !important;
+        background-image: -o-linear-gradient(180deg, #cbcbcb, #e8e8e8) !important;
+        background: linear-gradient(90deg, #cbcbcb, #e8e8e8) !important;
     }
 {% endif %}
 
@@ -363,5 +432,13 @@
 @media screen and (max-width: 1439px) {
     .sf-toolbar-block .sf-toolbar-icon > * > .sf-toolbar-info-piece-additional-detail {
         display: none;
+    }
+}
+
+/***** Media query print: Do not print the Toolbar. *****/
+@media print {
+    .sf-toolbar {
+        display: none;
+        visibility: hidden;
     }
 }
