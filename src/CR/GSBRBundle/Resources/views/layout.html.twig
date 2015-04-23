@@ -1,96 +1,94 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{% block title %}GSBR{% endblock %}</title>
+        <title>{% block title %}GSBR{% endblock %}</title>
 
-  {% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('bundles/GSBR/css/bootstrap.css')}}">
-  {% endblock %}
-</head>
-
-<body>
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{{ path('crgsbr_homepage') }}">GSB-Report</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Medicaments <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ path('crgsbr_listeMedicament') }}">Consulter</a></li>
-                <li><a href="{{ path('crgsbr_rechercheMedicament') }}">Rechercher</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Praticiens <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ path('crgsbr_listePraticien') }}">Consulter</a></li>
-                <li><a href="{{ path('crgsbr_recherchePraticien') }}">Rechercher</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Rapports de visite <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ path('crgsbr_consulterRapportsVisite') }}">Consulter</a></li>
-                <li><a href="{{ path('crgsbr_ajouterRapportsVisite') }}">Ajouter</a></li>
-              </ul>
-            </li>
-          </ul>
-            {% if app.user %}
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Bienvenue, {{ app.user.nom ~ ' ' ~ app.user.prenom}} <span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ path('crgsbr_profil') }}">Profil</a></li>
-                    <li><a href="{{ path('crgsbr_deconnexion') }}">Deconnexion</a></li>
-                  </ul>
-                </li>
-            </ul>
-           {% endif %}
-        </div>
-      </div>
-    </nav>
-    
-  <div class="container">
-    <div class="row">
-      <div id="content" class="col-md-12">
-        {% for label, flashes in app.session.flashbag.all %}
-            {% for flash in flashes %}
-                <div class="alert alert-{{ label }}">
-                    {{ flash }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-        {% block body %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{asset('bundles/GSBR/css/bootstrap.css')}}">
         {% endblock %}
-      </div>
-    </div>
+    </head>
 
-    <hr>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ path('crgsbr_homepage') }}">GSB-Report</a>
+                </div>
 
-    <footer>
-      
-    </footer>
-  </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Medicaments <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ path('crgsbr_listeMedicament') }}">Consulter</a></li>
+                                <li><a href="{{ path('crgsbr_rechercheMedicament') }}">Rechercher</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Praticiens <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ path('crgsbr_listePraticien') }}">Consulter</a></li>
+                                <li><a href="{{ path('crgsbr_recherchePraticien') }}">Rechercher</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Rapports de visite <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ path('crgsbr_consulterRapportsVisite') }}">Consulter</a></li>
+                                <li><a href="{{ path('crgsbr_ajouterRapportsVisite') }}">Ajouter</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    {% if app.user %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Bienvenue, {{ app.user.nom ~ ' ' ~ app.user.prenom}} <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{ path('crgsbr_profil') }}">Profil</a></li>
+                                    <li><a href="{{ path('crgsbr_deconnexion') }}">Deconnexion</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
 
-  {% block javascripts %}
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="{{asset('bundles/GSBR/js/bootstrap.min.js')}}"></script>
-  {% endblock %}
+        <div class="container">
+            <div class="row">
+                <div id="content" class="col-md-12">
+                    {% for label, flashes in app.session.flashbag.all %}
+                        {% for flash in flashes %}
+                            <div class="alert alert-{{ label }}">
+                                {{ flash }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% block body %}
+                    {% endblock %}
+                </div>
+            </div>
 
-</body>
+            <hr>
+
+            <footer>
+
+            </footer>
+        </div>
+
+        {% block javascripts %}
+            <script src="{{asset('bundles/GSBR/js/jquery-1.11.2.min.js')}}"></script>
+            <script src="{{asset('bundles/GSBR/js/bootstrap.min.js')}}"></script>
+        {% endblock %}
+
+    </body>
 </html>

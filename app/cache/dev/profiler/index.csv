@@ -271,3 +271,8 @@ aa7fd5,::1,GET,http://localhost/ProjetBTS/CR/web/app_dev.php/GSBR/consulterRappo
 4e9636,::1,GET,http://localhost/ProjetBTS/CR/web/app_dev.php/GSBR/listeMedicament,1429803760,
 1230f5,::1,GET,http://localhost/ProjetBTS/CR/web/app_dev.php/GSBR/listePraticien,1429803762,
 51cd72,::1,GET,http://localhost/ProjetBTS/CR/web/app_dev.php/GSBR/consulterRapportsVisite,1429803764,
+9001cf,::1,GET,http://localhost/ProjetBTS/CR/web/app_dev.php/GSBR/consulterRapportsVisite,1429805590,
+871d44,::1,GET,http://localhost/ProjetBTS/CR/web/app_dev.php/GSBR/listeMedicament,1429805594,
+47b334,::1,GET,http://localhost/ProjetBTS/CR/web/app_dev.php/GSBR/consulterRapportsVisite,1429805595,
+8bb513,::1,GET,http://localhost/ProjetBTS/CR/web/app_dev.php/GSBR/ajouterRapportsVisite,1429805599,
+b565c1,::1,GET,http://localhost/ProjetBTS/CR/web/app_dev.php/GSBR/recherchePraticien,1429805603,

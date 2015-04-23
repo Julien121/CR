@@ -1,6 +1,6 @@
 {% extends "CRGSBRBundle::layout.html.twig" %}
 {% block title %}
-  Accueil - {{ parent() }}
+    Accueil - {{ parent() }}
 {% endblock %}
 {% block body %}
 
@@ -24,29 +24,29 @@
     </form>
     {% if resultats %}
 
-    <h2>Résultats de la recherche</h2>
-    <hr>
+        <h2>Résultats de la recherche</h2>
+        <hr>
 
-   <table class="table table-bordered table-condensed table-body-center" >
-        <thead>
-            <tr>
-                <th>Nom commercial</th>
-                <th>Famille</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for resultat in resultats %}
+        <table class="table table-bordered table-condensed table-body-center" >
+            <thead>
                 <tr>
+                    <th>Nom commercial</th>
+                    <th>Famille</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resultat in resultats %}
+                    <tr>
 
-                    <td data-title="Valeur alphanumérique">
-                        {{ resultat.nomCommercial }}
-                    </td>
-                    <td data-title="Valeur alphanumérique">
-                        {{ resultat.getFamille.getLibelleFamille }}
-                    </td>
-                </tr>  
-            {% endfor %}
-        </tbody>
-    </table>
+                        <td data-title="Valeur alphanumérique">
+                            {{ resultat.nomCommercial }}
+                        </td>
+                        <td data-title="Valeur alphanumérique">
+                            {{ resultat.getFamille.getLibelleFamille }}
+                        </td>
+                    </tr>  
+                {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
 {% endblock %}  
