@@ -134,48 +134,48 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                     return $this->redirect($pathinfo.'/', 'crgsbr_homepage');
                 }
 
-                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::indexAction',  '_route' => 'crgsbr_homepage',);
-            }
-
-            // crgsbr_listeMedicament
-            if ($pathinfo === '/GSBR/listeMedicament') {
-                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::listeMedicamentAction',  '_route' => 'crgsbr_listeMedicament',);
-            }
-
-            // crgsbr_rechercheMedicament
-            if ($pathinfo === '/GSBR/rechercheMedicament') {
-                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::rechercheMedicamentAction',  '_route' => 'crgsbr_rechercheMedicament',);
-            }
-
-            // crgsbr_listePraticien
-            if ($pathinfo === '/GSBR/listePraticien') {
-                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::listePraticienAction',  '_route' => 'crgsbr_listePraticien',);
-            }
-
-            // crgsbr_recherchePraticien
-            if ($pathinfo === '/GSBR/recherchePraticien') {
-                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::recherchePraticienAction',  '_route' => 'crgsbr_recherchePraticien',);
+                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\DefaultController::accueilAction',  '_route' => 'crgsbr_homepage',);
             }
 
             // crgsbr_profil
             if ($pathinfo === '/GSBR/profil') {
-                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::profilAction',  '_route' => 'crgsbr_profil',);
+                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\DefaultController::profilAction',  '_route' => 'crgsbr_profil',);
+            }
+
+            // crgsbr_listeMedicament
+            if ($pathinfo === '/GSBR/listeMedicament') {
+                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\MedicamentController::listeAction',  '_route' => 'crgsbr_listeMedicament',);
+            }
+
+            // crgsbr_rechercheMedicament
+            if ($pathinfo === '/GSBR/rechercheMedicament') {
+                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\MedicamentController::rechercheAction',  '_route' => 'crgsbr_rechercheMedicament',);
+            }
+
+            // crgsbr_listePraticien
+            if ($pathinfo === '/GSBR/listePraticien') {
+                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\PraticienController::listeAction',  '_route' => 'crgsbr_listePraticien',);
+            }
+
+            // crgsbr_recherchePraticien
+            if ($pathinfo === '/GSBR/recherchePraticien') {
+                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\PraticienController::rechercheAction',  '_route' => 'crgsbr_recherchePraticien',);
             }
 
             // crgsbr_consulterRapportsVisite
             if ($pathinfo === '/GSBR/consulterRapportsVisite') {
-                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::consulterRapportsVisiteAction',  '_route' => 'crgsbr_consulterRapportsVisite',);
+                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\RapportVisiteController::consulterAction',  '_route' => 'crgsbr_consulterRapportsVisite',);
             }
 
             // crgsbr_ajouterRapportsVisite
             if ($pathinfo === '/GSBR/ajouterRapportsVisite') {
-                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::ajouterRapportsVisiteAction',  '_route' => 'crgsbr_ajouterRapportsVisite',);
+                return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\RapportVisiteController::ajouterAction',  '_route' => 'crgsbr_ajouterRapportsVisite',);
             }
 
             if (0 === strpos($pathinfo, '/GSBR/connexion')) {
                 // crgsbr_connexion
                 if ($pathinfo === '/GSBR/connexion') {
-                    return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\GSBRController::loginAction',  '_route' => 'crgsbr_connexion',);
+                    return array (  '_controller' => 'CR\\GSBRBundle\\Controller\\DefaultController::loginAction',  '_route' => 'crgsbr_connexion',);
                 }
 
                 // crgsbr_connexion_check

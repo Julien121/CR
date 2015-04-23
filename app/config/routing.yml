@@ -3,7 +3,7 @@ crgsbr:
     prefix:   /GSBR
 crgsbr_connexion:
     pattern:  /GSBR/connexion
-    defaults: { _controller: CRGSBRBundle:GSBR:login }
+    defaults: { _controller: CRGSBRBundle:Default:login }
 crgsbr_connexion_check:
     pattern:   /GSBR/connexion_check
 crgsbr_deconnexion:

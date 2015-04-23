@@ -1777,7 +1777,7 @@
       <argument type="collection">
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>5537b847c25e6</argument>
+            <argument>55390890ee2f6</argument>
           </service>
         </argument>
         <argument type="service">
@@ -1842,6 +1842,11 @@
         <service class="Symfony\Bundle\SecurityBundle\Security\FirewallMap" public="false">
           <argument type="service" id="service_container"/>
           <argument type="collection">
+            <argument key="security.firewall.map.context.dev" type="service">
+              <service class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+                <argument>^/(_(profiler|wdt)|css|images|js)/</argument>
+              </service>
+            </argument>
             <argument key="security.firewall.map.context.connexion_firewall" type="service">
               <service class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
                 <argument>^/GSBR/connexion$</argument>
@@ -1933,6 +1938,10 @@
       <argument>login</argument>
       <argument>null</argument>
     </service>
+    <service id="security.firewall.map.context.dev" class="Symfony\Bundle\SecurityBundle\Security\FirewallContext">
+      <argument type="collection"/>
+      <argument>null</argument>
+    </service>
     <service id="security.firewall.map.context.connexion_firewall" class="Symfony\Bundle\SecurityBundle\Security\FirewallContext">
       <argument type="collection">
         <argument type="service" id="security.channel_listener"/>
@@ -1950,7 +1959,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>5537b847c25e6</argument>
+            <argument>55390890ee2f6</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="security.authentication.manager"/>
           </service>

@@ -1,24 +1,24 @@
 crgsbr_homepage:
     pattern:  /
-    defaults: { _controller: CRGSBRBundle:GSBR:index }
-crgsbr_listeMedicament:
-    pattern:  /listeMedicament
-    defaults: { _controller: CRGSBRBundle:GSBR:listeMedicament }
-crgsbr_rechercheMedicament:
-    pattern:  /rechercheMedicament
-    defaults: { _controller: CRGSBRBundle:GSBR:rechercheMedicament }
-crgsbr_listePraticien:
-    pattern:  /listePraticien
-    defaults: { _controller: CRGSBRBundle:GSBR:listePraticien }
-crgsbr_recherchePraticien:
-    pattern:  /recherchePraticien
-    defaults: { _controller: CRGSBRBundle:GSBR:recherchePraticien }
+    defaults: { _controller: CRGSBRBundle:Default:accueil }
 crgsbr_profil:
     pattern:  /profil
-    defaults: { _controller: CRGSBRBundle:GSBR:profil }
+    defaults: { _controller: CRGSBRBundle:Default:profil }
+crgsbr_listeMedicament:
+    pattern:  /listeMedicament
+    defaults: { _controller: CRGSBRBundle:Medicament:liste }
+crgsbr_rechercheMedicament:
+    pattern:  /rechercheMedicament
+    defaults: { _controller: CRGSBRBundle:Medicament:recherche }
+crgsbr_listePraticien:
+    pattern:  /listePraticien
+    defaults: { _controller: CRGSBRBundle:Praticien:liste }
+crgsbr_recherchePraticien:
+    pattern:  /recherchePraticien
+    defaults: { _controller: CRGSBRBundle:Praticien:recherche }
 crgsbr_consulterRapportsVisite:
     pattern:  /consulterRapportsVisite
-    defaults: { _controller: CRGSBRBundle:GSBR:consulterRapportsVisite }
+    defaults: { _controller: CRGSBRBundle:RapportVisite:consulter }
 crgsbr_ajouterRapportsVisite:
     pattern:  /ajouterRapportsVisite
-    defaults: { _controller: CRGSBRBundle:GSBR:ajouterRapportsVisite }
+    defaults: { _controller: CRGSBRBundle:RapportVisite:ajouter }
