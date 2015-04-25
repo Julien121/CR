@@ -3,14 +3,27 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Controller/GSBRController.php</file>
-            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/GSBR/rapportVisite.html.twig</file>
-            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/GSBR/ajouterRapportsVisite.html.twig</file>
-            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Entity/Praticien.php</file>
-            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/GSBR/profil.html.twig</file>
-            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/config/routing.yml</file>
-            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/GSBR/rechercheMedicament.html.twig</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Controller/PraticienController.php</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/Default/index.html.twig</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/app/config/parameters.yml</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/README.md</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/Medicament/recherche.html.twig</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/Medicament/liste.html.twig</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/app/config/security.yml</file>
             <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/layout.html.twig</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/app/config/config.yml</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Controller/DefaultController.php</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Controller/MedicamentController.php</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/Default/profil.html.twig</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/app/config/routing.yml</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/vendor/doctrine/common/lib/Doctrine/Common/Persistence/AbstractManagerRegistry.php</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/RapportVisite/consulter.html.twig</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/Praticien/liste.html.twig</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/RapportVisite/ajouter.html.twig</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/config/routing.yml</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/config/services.yml</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Resources/views/Default/connexion.html.twig</file>
+            <file>file:/D:/wamp/www/ProjetBTS/CR/src/CR/GSBRBundle/Controller/RapportVisiteController.php</file>
         </group>
     </open-files>
 </project-private>

@@ -2007,7 +2007,7 @@ class appDevDebugProjectContainer extends Container
         $a = $this->get('security.context');
         $b = $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE);
 
-        return $this->services['security.firewall.map.context.connexion_firewall'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('security.user.provider.concrete.main')), 'connexion_firewall', $b, $this->get('debug.event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)), 2 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '5539129f75b7a', $b, $this->get('security.authentication.manager')), 3 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $this->get('security.http_utils'), 'connexion_firewall', NULL, NULL, NULL, $b));
+        return $this->services['security.firewall.map.context.connexion_firewall'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('security.user.provider.concrete.main')), 'connexion_firewall', $b, $this->get('debug.event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)), 2 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '553bbcbb88231', $b, $this->get('security.authentication.manager')), 3 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $this->get('security.http_utils'), 'connexion_firewall', NULL, NULL, NULL, $b));
     }
 
     /**
@@ -3546,7 +3546,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_Authentication_ManagerService()
     {
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('5539129f75b7a'), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('security.user.provider.concrete.main'), new \Symfony\Component\Security\Core\User\UserChecker(), 'secured_area', $this->get('security.encoder_factory'), true)), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('553bbcbb88231'), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('security.user.provider.concrete.main'), new \Symfony\Component\Security\Core\User\UserChecker(), 'secured_area', $this->get('security.encoder_factory'), true)), true);
 
         $instance->setEventDispatcher($this->get('debug.event_dispatcher'));
 
@@ -3763,7 +3763,7 @@ class appDevDebugProjectContainer extends Container
             'kernel.root_dir' => $this->targetDirs[2],
             'kernel.environment' => 'dev',
             'kernel.debug' => true,
-            'kernel.name' => 'app',
+            'kernel.name' => 'ap_',
             'kernel.cache_dir' => __DIR__,
             'kernel.logs_dir' => ($this->targetDirs[2].'\\logs'),
             'kernel.bundles' => array(
@@ -4228,7 +4228,7 @@ class appDevDebugProjectContainer extends Container
             ),
             'assetic.java.bin' => 'C:\\ProgramData\\Oracle\\Java\\javapath\\java.EXE',
             'assetic.node.bin' => 'C:\\Program Files (x86)\\nodejs\\\\node.EXE',
-            'assetic.ruby.bin' => '/usr/bin/ruby',
+            'assetic.ruby.bin' => 'D:\\Ruby21\\bin\\ruby.EXE',
             'assetic.sass.bin' => '/usr/bin/sass',
             'assetic.filter.cssrewrite.class' => 'Assetic\\Filter\\CssRewriteFilter',
             'assetic.twig_extension.functions' => array(
